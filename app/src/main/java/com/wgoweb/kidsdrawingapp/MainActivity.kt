@@ -21,10 +21,7 @@ class MainActivity : AppCompatActivity() {
         drawing_view.setSizeForBrush(20.toFloat())
         mImageButtonCurrentPaint = ll_paint_colors[1] as ImageButton
         mImageButtonCurrentPaint!!.setImageDrawable(
-            ContextCompat.getDrawable(
-                this,
-                R.drawable.pallet_pressed
-            )
+            ContextCompat.getDrawable( this, R.drawable.pallet_pressed )
         )
 
         ib_brush.setOnClickListener {
@@ -33,12 +30,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    
+
 
     private fun showBrushSizeChooserDialog() {
         val brushDialog = Dialog(this)
         brushDialog.setContentView(R.layout.dialog_brush_size)
         brushDialog.setTitle("Brush size :")
+        val thinBtn = brushDialog.ibThinBrush
+        thinBtn.setOnClickListener(View.OnClickListener {
+            drawing_view.setSizeForBrush(10.toFloat())
+            brushDialog.dismiss()
+        })
+
         val smallBtn = brushDialog.ibSmallBrush
         smallBtn.setOnClickListener(View.OnClickListener {
             drawing_view.setSizeForBrush(10.toFloat())
@@ -56,5 +59,23 @@ class MainActivity : AppCompatActivity() {
             brushDialog.dismiss()
         })
         brushDialog.show()
+    }
+
+    fun painClicked(view: View) {
+        if (view != mImageButtonCurrentPaint) {
+            val imageButton = view as ImageButton
+            val colorTag = imageButton.tag.toString()  // it will read #cccccc
+            drawing_view.setColor(colorTag)
+            imageButton.setImageDrawable(
+                ContextCompat.getDrawable( this, R.drawable.pallet_pressed )
+            )
+
+            mImageButtonCurrentPaint!!.setImageDrawable(
+                ContextCompat.getDrawable( this, R.drawable.pallet_normal )
+            )
+
+            mImageButtonCurrentPaint = view
+        }
+
     }
 }

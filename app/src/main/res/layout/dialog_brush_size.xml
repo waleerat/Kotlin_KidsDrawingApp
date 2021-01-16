@@ -6,6 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
+
+
+    <ImageButton
+        android:id="@+id/ibThinBrush"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="image_thin"
+        android:src="@drawable/brush_thin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ibSmallBrush"
+        />
+
     <ImageButton
         android:id="@+id/ibSmallBrush"
         android:layout_width="wrap_content"
