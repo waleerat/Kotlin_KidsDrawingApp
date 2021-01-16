@@ -15,7 +15,7 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private  var mBrushSize: Float = 0.toFloat()
     private  var color = Color.BLACK
     private var canvas: Canvas? = null
-
+    private val mUndoPaths = ArrayList<CustomPath>()
     // make drawing stay
     private  val mPaths = ArrayList<CustomPath>()
 
@@ -101,6 +101,16 @@ class DrawingView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         mDrawPaint!!.color = color
     }
 
+    fun clearCanvas(){
+        mPaths.clear()
+    }
+    fun onClickUndo() {
+        if (mPaths.size > 0) {
+
+            mUndoPaths.add(mPaths.removeAt(mPaths.size - 1))
+            invalidate() // Invalidate the whole view. If the view is visible
+        }
+    }
     internal  inner class CustomPath(var color: Int,
                                      var brushThickness: Float
                                      ): Path() {
