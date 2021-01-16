@@ -21,7 +21,6 @@
 
         <ImageView
             android:id="@+id/iv_background"
-            android:src="@drawable/image"
             android:scaleType="centerCrop"
             android:contentDescription="backgroundImage"
             android:layout_width="match_parent"
