@@ -70,6 +70,10 @@ class MainActivity : AppCompatActivity() {
             drawing_view.onClickUndo()
         }
 
+        ib_clear.setOnClickListener {
+            drawing_view.clearCanvas()
+        }
+
         ib_save.setOnClickListener {
 
             //First checking if the app is already having the permission
@@ -142,6 +146,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun showBrushSizeChooserDialog() {
         val brushDialog = Dialog(this)
@@ -263,10 +268,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @Suppress("DEPRECATION")
     @SuppressLint("StaticFieldLeak")
     private inner class BitmapAsyncTask(val mBitmap: Bitmap?) :
         AsyncTask<Any, Void, String>() {
-
+        private lateinit var mProgressDialog: Dialog
 
         @Suppress("DEPRECATION")
         private var mDialog: ProgressDialog? = null
@@ -288,23 +294,6 @@ class MainActivity : AppCompatActivity() {
                     // The buffer capacity is initially 32 bytes, though its size increases if necessary.
 
                     mBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes)
-                    /**
-                     * Write a compressed version of the bitmap to the specified outputstream.
-                     * If this returns true, the bitmap can be reconstructed by passing a
-                     * corresponding inputstream to BitmapFactory.decodeStream(). Note: not
-                     * all Formats support all bitmap configs directly, so it is possible that
-                     * the returned bitmap from BitmapFactory could be in a different bitdepth,
-                     * and/or may have lost per-pixel alpha (e.g. JPEG only supports opaque
-                     * pixels).
-                     *
-                     * @param format   The format of the compressed image
-                     * @param quality  Hint to the compressor, 0-100. 0 meaning compress for
-                     *                 small size, 100 meaning compress for max quality. Some
-                     *                 formats, like PNG which is lossless, will ignore the
-                     *                 quality setting
-                     * @param stream   The outputstream to write the compressed data.
-                     * @return true if successfully compressed to the specified stream.
-                     */
 
                     val f = File(
                         externalCacheDir!!.absoluteFile.toString()
@@ -347,7 +336,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
-
+// Share file
             MediaScannerConnection.scanFile(
                 this@MainActivity, arrayOf(result), null
             ) { path, uri ->
@@ -374,9 +363,6 @@ class MainActivity : AppCompatActivity() {
             // END
         }
 
-        /**
-         * This function is used to show the progress dialog with the title and message to user.
-         */
         private fun showProgressDialog() {
             @Suppress("DEPRECATION")
             mDialog = ProgressDialog.show(
@@ -386,9 +372,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        /**
-         * This function is used to dismiss the progress dialog if it is visible to user.
-         */
         private fun cancelProgressDialog() {
             if (mDialog != null) {
                 mDialog!!.dismiss()
@@ -396,9 +379,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
     companion object {
 
         private const val STORAGE_PERMISSION_CODE = 1
